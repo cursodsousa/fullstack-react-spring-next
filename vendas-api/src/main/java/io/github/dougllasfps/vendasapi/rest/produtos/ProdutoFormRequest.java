@@ -33,4 +33,9 @@ public class ProdutoFormRequest {
 	public void setSku(String sku) {
 		this.sku = sku;
 	}
+	@Override
+	public String toString() {
+		return "ProdutoFormRequest [descricao=" + descricao + ", nome=" + nome + ", preco=" + preco + ", sku=" + sku
+				+ "]";
+	}
 }
