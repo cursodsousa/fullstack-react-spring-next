@@ -1,21 +1,27 @@
 import { useState } from 'react'
 import { Layout, Input } from 'components'
+import { useProdutoService } from 'app/services'
+import { Produto } from 'app/models/produtos'
+import { AxiosResponse } from 'axios'
 
 export const CadastroProdutos: React.FC = () => {
 
+    const service = useProdutoService()
     const [ sku, setSku ] = useState<string>('')
     const [ preco, setPreco ] = useState<string>('')
     const [ nome, setNome ] = useState<string>('')
     const [ descricao, setDescricao ] = useState<string>('')    
 
     const submit = () => {
-        const produto = {
+        const produto: Produto = {
             sku, 
-            preco, 
+            preco: 0, 
             nome, 
             descricao
         }
-        console.log(produto)
+        service
+            .salvar(produto)
+            .then(produto => console.log(produto) )
     }
 
     return (

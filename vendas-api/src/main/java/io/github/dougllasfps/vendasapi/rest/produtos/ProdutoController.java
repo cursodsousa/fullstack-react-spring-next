@@ -1,6 +1,7 @@
 package io.github.dougllasfps.vendasapi.rest.produtos;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +12,7 @@ import io.github.dougllasfps.vendasapi.model.repository.ProdutoRepository;
 
 @RestController
 @RequestMapping("/api/produtos")
+@CrossOrigin("*")
 public class ProdutoController {
 	
 	@Autowired
