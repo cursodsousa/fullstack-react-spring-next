@@ -15,18 +15,27 @@ export const CadastroProdutos: React.FC = () => {
 
     const submit = () => {
         const produto: Produto = {
+            id,
             sku, 
             preco: parseFloat(preco), 
             nome, 
             descricao
         }
 
-        service
-            .salvar(produto)
-            .then(produtoResposta => {
-                setId(produtoResposta.id)
-                setCadastro(produtoResposta.cadastro)
-            })
+        if(id){
+            service
+                .atualizar(produto)
+                .then(response => console.log("atualizado!"))
+        }else{
+            
+            service
+                .salvar(produto)
+                .then(produtoResposta => {
+                    setId(produtoResposta.id)
+                    setCadastro(produtoResposta.cadastro)
+                })
+        }
+
     }
 
     return (
@@ -91,7 +100,9 @@ export const CadastroProdutos: React.FC = () => {
 
            <div className="field is-grouped">
                 <div className="control is-link">
-                    <button onClick={submit} className="button">Salvar</button>
+                    <button onClick={submit} className="button">
+                        { id ? "Atualizar" : "Salvar" }                        
+                    </button>
                 </div>
                 <div className="control">
                     <button className="button">Voltar</button>
