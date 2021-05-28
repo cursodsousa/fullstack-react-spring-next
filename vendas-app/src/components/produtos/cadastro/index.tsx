@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Layout, Input } from 'components'
 import { useProdutoService } from 'app/services'
 import { Produto } from 'app/models/produtos'
+import { converterEmBigDecimal } from 'app/utils/money'
 
 export const CadastroProdutos: React.FC = () => {
 
@@ -16,7 +17,7 @@ export const CadastroProdutos: React.FC = () => {
     const submit = () => {
         const produto: Produto = {
             sku, 
-            preco: parseFloat(preco), 
+            preco: converterEmBigDecimal(preco), 
             nome, 
             descricao
         }
@@ -62,8 +63,10 @@ export const CadastroProdutos: React.FC = () => {
                        columnClasses="is-half" 
                        onChange={setPreco}
                        value={preco}
+                       maxLength={16}
                        id="inputPreco"
                        placeholder="Digite o Preço do produto" 
+                       currency
                        />
            </div>
 
