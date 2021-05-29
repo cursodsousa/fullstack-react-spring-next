@@ -3,6 +3,7 @@ import { Layout, Input } from 'components'
 import { useProdutoService } from 'app/services'
 import { Produto } from 'app/models/produtos'
 import { converterEmBigDecimal } from 'app/util/money'
+import { IMessage, successMessage } from 'components/layout'
 
 export const CadastroProdutos: React.FC = () => {
 
@@ -13,6 +14,7 @@ export const CadastroProdutos: React.FC = () => {
     const [ descricao, setDescricao ] = useState<string>('')   
     const [ id, setId ] = useState<string>('')
     const [ cadastro, setCadastro ] = useState<string>('')
+    const [ messages, setMessages ] = useState<Array<IMessage>>([])
 
     const submit = () => {
         const produto: Produto = {
@@ -26,7 +28,9 @@ export const CadastroProdutos: React.FC = () => {
         if(id){
             service
                 .atualizar(produto)
-                .then(response => console.log("atualizado!"))
+                .then(response => {
+                    setMessages([successMessage("Produto atualizado com sucesso!")])
+                })
         }else{
             
             service
@@ -34,13 +38,14 @@ export const CadastroProdutos: React.FC = () => {
                 .then(produtoResposta => {
                     setId(produtoResposta.id)
                     setCadastro(produtoResposta.cadastro)
+                    setMessages([successMessage("Produto salvo com sucesso!")])
                 })
         }
 
     }
 
     return (
-        <Layout titulo="Produtos">
+        <Layout titulo="Produtos" messages={messages}>
             {id &&
                 <div className="columns">
                     <Input label="Código:" 
@@ -48,6 +53,7 @@ export const CadastroProdutos: React.FC = () => {
                         value={id}
                         id="inputId"
                         disabled={true}
+                        
                         />
 
                     <Input label="Data Cadastro:" 
@@ -66,6 +72,7 @@ export const CadastroProdutos: React.FC = () => {
                        value={sku}
                        id="inputSku"
                        placeholder="Digite o SKU do produto" 
+                       error="SKU Inválido"
                        />
 
                 <Input label="Preço: *" 
