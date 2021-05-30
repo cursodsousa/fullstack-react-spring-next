@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Layout, Input } from 'components'
+import { Layout, Input, Message } from 'components'
 import { useProdutoService } from 'app/services'
 import { Produto } from 'app/models/produtos'
 import { converterEmBigDecimal } from 'app/util/money'
@@ -41,6 +41,8 @@ export const CadastroProdutos: React.FC = () => {
 
     return (
         <Layout titulo="Produtos">
+            <Message field="Nome" texto="Inválido!" tipo="danger" />
+            <Message field="SKU" texto="Repetido!" tipo="danger" />
             {id &&
                 <div className="columns">
                     <Input label="Código:" 
