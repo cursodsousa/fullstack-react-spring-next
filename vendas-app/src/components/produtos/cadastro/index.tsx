@@ -4,6 +4,18 @@ import { useProdutoService } from 'app/services'
 import { Produto } from 'app/models/produtos'
 import { converterEmBigDecimal } from 'app/util/money'
 import { Alert } from 'components/common/message'
+import * as yup from 'yup'
+
+const msgCampoObrigatorio ="Campo Obrigatório";
+
+const validationSchema = yup.object().shape({
+    sku: yup.string().trim().required(msgCampoObrigatorio),
+    nome: yup.string().trim().required(msgCampoObrigatorio),
+    descricao: yup.string().trim()
+                    .required(msgCampoObrigatorio)
+                    .length(10, "Deve possuir pelo menos 10 caracteres"),
+    preco: yup.number().required(msgCampoObrigatorio).moreThan(0, "Valor deve ser maior que 0,00 (Zero)")
+})
 
 export const CadastroProdutos: React.FC = () => {
 
@@ -25,26 +37,38 @@ export const CadastroProdutos: React.FC = () => {
             descricao
         }
 
-        if(id){
-            service
-                .atualizar(produto)
-                .then(response => {
-                    setMessages([{
-                        tipo: "success", texto: "Produto atualizado com sucesso!"
-                    }])
-                })
-        }else{
-            
-            service
-                .salvar(produto)
-                .then(produtoResposta => {
-                    setId(produtoResposta.id)
-                    setCadastro(produtoResposta.cadastro)
-                    setMessages([{
-                        tipo: "success", texto: "Produto Salvo com sucesso!"
-                    }])
-                })
-        }
+        validationSchema.validate(produto).then(obj => {
+
+            if(id){
+                service
+                    .atualizar(produto)
+                    .then(response => {
+                        setMessages([{
+                            tipo: "success", texto: "Produto atualizado com sucesso!"
+                        }])
+                    })
+            }else{
+                
+                service
+                    .salvar(produto)
+                    .then(produtoResposta => {
+                        setId(produtoResposta.id)
+                        setCadastro(produtoResposta.cadastro)
+                        setMessages([{
+                            tipo: "success", texto: "Produto Salvo com sucesso!"
+                        }])
+                    })
+            }
+
+        }).catch(err => {
+            const field = err.path;
+            const message = err.message;
+
+            setMessages([
+                { tipo: "danger", field, texto: message  }
+            ])
+        })
+
 
     }
 
