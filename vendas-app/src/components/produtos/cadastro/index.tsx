@@ -3,6 +3,7 @@ import { Layout, Input, Message } from 'components'
 import { useProdutoService } from 'app/services'
 import { Produto } from 'app/models/produtos'
 import { converterEmBigDecimal } from 'app/util/money'
+import { Alert } from 'components/common/message'
 
 export const CadastroProdutos: React.FC = () => {
 
@@ -13,6 +14,7 @@ export const CadastroProdutos: React.FC = () => {
     const [ descricao, setDescricao ] = useState<string>('')   
     const [ id, setId ] = useState<string>('')
     const [ cadastro, setCadastro ] = useState<string>('')
+    const [ messages, setMessages ] = useState<Array<Alert>>([])
 
     const submit = () => {
         const produto: Produto = {
@@ -26,7 +28,11 @@ export const CadastroProdutos: React.FC = () => {
         if(id){
             service
                 .atualizar(produto)
-                .then(response => console.log("atualizado!"))
+                .then(response => {
+                    setMessages([{
+                        tipo: "success", texto: "Produto atualizado com sucesso!"
+                    }])
+                })
         }else{
             
             service
@@ -34,15 +40,16 @@ export const CadastroProdutos: React.FC = () => {
                 .then(produtoResposta => {
                     setId(produtoResposta.id)
                     setCadastro(produtoResposta.cadastro)
+                    setMessages([{
+                        tipo: "success", texto: "Produto Salvo com sucesso!"
+                    }])
                 })
         }
 
     }
 
     return (
-        <Layout titulo="Produtos">
-            <Message field="Nome" texto="Inválido!" tipo="danger" />
-            <Message field="SKU" texto="Repetido!" tipo="danger" />
+        <Layout titulo="Produtos" mensagens={messages}>
             {id &&
                 <div className="columns">
                     <Input label="Código:" 
