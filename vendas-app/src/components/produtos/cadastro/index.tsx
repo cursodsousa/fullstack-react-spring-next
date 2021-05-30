@@ -5,6 +5,7 @@ import { Produto } from 'app/models/produtos'
 import { converterEmBigDecimal } from 'app/util/money'
 import { Alert } from 'components/common/message'
 import * as yup from 'yup'
+import Link from 'next/link'
 
 const msgCampoObrigatorio ="Campo Obrigatório";
 
@@ -46,7 +47,7 @@ export const CadastroProdutos: React.FC = () => {
 
         validationSchema.validate(produto).then(obj => {
             setErrors({})
-            
+
             if(id){
                 service
                     .atualizar(produto)
@@ -155,7 +156,9 @@ export const CadastroProdutos: React.FC = () => {
                     </button>
                 </div>
                 <div className="control">
-                    <button className="button">Voltar</button>
+                    <Link href="/consultas/produtos">
+                        <button className="button">Voltar</button>
+                    </Link>
                 </div>
            </div>
 
