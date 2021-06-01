@@ -16,8 +16,7 @@ export const ListagemProdutos: React.FC = () => {
     }
 
     const onDelete = (produto) => {
-        console.log("deletando", produto.id);
-        
+        console.log("deletando", produto.id);        
     }
 
     return (

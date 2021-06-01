@@ -1,5 +1,6 @@
 import { Produto } from 'app/models/produtos'
 import { useState } from 'react'
+import { formatReal } from 'app/util/money'
 
 interface TabelaProdutosProps {
     produtos: Array<Produto>;
@@ -71,7 +72,7 @@ const ProdutoRow: React.FC<ProdutoRowProps> = ({
             <td>{ produto.id }</td>
             <td>{ produto.sku }</td>
             <td>{ produto.nome }</td>
-            <td>{ produto.preco }</td>
+            <td>R$ {  formatReal(`${produto?.preco}`) }</td>
             <td>
                 {!deletando &&
                     <button className="button is-success is-small  is-rounded" onClick={e => onEdit(produto)}>Editar</button>
