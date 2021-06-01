@@ -5,16 +5,19 @@ import { Produto } from 'app/models/produtos'
 import useSWR from 'swr'
 import { httpClient } from 'app/http'
 import { AxiosResponse } from 'axios'
+import Router from 'next/router'
 
 export const ListagemProdutos: React.FC = () => {
-
     const { data: result, error } = useSWR<AxiosResponse<Produto[]>>
                     ('/api/produtos', url => httpClient.get(url) )
 
-    if(!result){
-        return (
-            <div>Carregando</div>
-        )
+    const onEdit = (produto) => {
+        Router.push(`/cadastros/produtos?id=${produto.id}`)
+    }
+
+    const onDelete = (produto) => {
+        console.log("deletando", produto.id);
+        
     }
 
     return (
@@ -22,8 +25,8 @@ export const ListagemProdutos: React.FC = () => {
             <Link href="/cadastros/produtos">
                 <button className="button is-warning">Novo</button>
             </Link>
-            <br />
-            <TabelaProdutos produtos={result.data} />
+            <br /> <br />
+            <TabelaProdutos onEdit={onEdit} onDelete={onDelete} loading={!result} produtos={result?.data || []} />
         </Layout>
     )
 }

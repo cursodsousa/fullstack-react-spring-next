@@ -6,6 +6,7 @@ import { converterEmBigDecimal } from 'app/util/money'
 import { Alert } from 'components/common/message'
 import * as yup from 'yup'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 const msgCampoObrigatorio ="Campo Obrigatório";
 
@@ -35,6 +36,7 @@ export const CadastroProdutos: React.FC = () => {
     const [ cadastro, setCadastro ] = useState<string>('')
     const [ messages, setMessages ] = useState<Array<Alert>>([])
     const [ errors, setErrors ] = useState<FormErros>({})
+    const router = useRouter();
 
     const submit = () => {
         const produto: Produto = {
