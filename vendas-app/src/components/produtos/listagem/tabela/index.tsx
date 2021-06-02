@@ -2,10 +2,14 @@ import { Produto } from 'app/models/produtos'
 
 interface TabelaProdutosProps {
     produtos: Array<Produto>;
+    onEdit: (produto) => void;
+    onDelete: (produto) => void;
 }
 
 export const TabelaProdutos: React.FC<TabelaProdutosProps> = ({
-    produtos
+    produtos,
+    onDelete,
+    onEdit
 }) => {
     return (
         <table className="table is-striped is-hoverable">
@@ -20,7 +24,13 @@ export const TabelaProdutos: React.FC<TabelaProdutosProps> = ({
             </thead>
             <tbody>
                 {
-                    produtos.map( produto => <ProdutoRow key={produto.id} produto={produto} />)
+                    produtos.map( produto => (
+                            <ProdutoRow onDelete={onDelete} 
+                                        onEdit={onEdit} 
+                                        key={produto.id} 
+                                        produto={produto} />
+                        )
+                    )
                 }
             </tbody>
         </table>
@@ -29,10 +39,14 @@ export const TabelaProdutos: React.FC<TabelaProdutosProps> = ({
 
 interface ProdutoRowProps {
     produto: Produto;
+    onEdit: (produto) => void;
+    onDelete: (produto) => void;
 }
 
 const ProdutoRow: React.FC<ProdutoRowProps> = ({
-    produto
+    produto,
+    onDelete,
+    onEdit
 }) => {
     return (
         <tr>
@@ -41,8 +55,14 @@ const ProdutoRow: React.FC<ProdutoRowProps> = ({
             <td>{ produto.nome }</td>
             <td>{ produto.preco }</td>
             <td>
-                <button className="button is-success">Editar</button>
-                <button className="button is-danger">Deletar</button>
+                <button onClick={e => onEdit(produto) } 
+                        className="button is-success is-rounded is-small">
+                    Editar
+                </button>
+                <button onClick={e => onDelete(produto)} 
+                        className="button is-danger is-rounded  is-small">
+                    Deletar
+                </button>
             </td>
         </tr>
     )
