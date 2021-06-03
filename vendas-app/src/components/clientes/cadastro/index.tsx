@@ -7,7 +7,7 @@ export const CadastroClientes: React.FC = () => {
     const cliente: Cliente = {
         id: "1",
         nome: "Dougllas",
-        cpf: "03124062310"
+        cpf: "031.240.623-10"
     }
 
     const onSubmit = (cliente: Cliente) => {

@@ -1,2 +1,1 @@
-export { Input } from './input'
-export { InputText } from './inputText'
+export { Input, InputMoney, InputCPF } from './input'

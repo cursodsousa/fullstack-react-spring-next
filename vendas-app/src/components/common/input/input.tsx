@@ -1,67 +1,104 @@
-import { InputHTMLAttributes } from 'react'
+import { ChangeEvent, ChangeEventHandler, InputHTMLAttributes, useEffect, useState } from 'react'
 import { formatReal } from 'app/util/money'
 import { FormatUtils } from '@4us-dev/utils'
-import { InputTextProps } from './inputText'
 
-interface InputProps extends InputTextProps {
-    onChange?: (value) => void;
+const formatter = new FormatUtils();
+
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+    id: string;
+    label: string;
+    columnClasses?: string;
+    error?: string;
+    formatter?: (value: string) => string;
 }
 
+
 export const Input: React.FC<InputProps> = ({
+    label,
+    columnClasses,
+    id,
+    error,
+    formatter,
     onChange,
-    currency,
     ...inputProps
 }: InputProps) => {
 
-    const onInputChange = (event) => {
-        let value = event.target.value;
-
-        if(value && currency){
-            value = formatReal(value);
-        }
-
-        if(onChange){
-            onChange(value)
-        }
+    const onRawChange = (event) => {
+        const { name, value } = event.target
+        const formatedValue = (formatter && formatter(value as string)) || value
+        onChange({
+            ...event,
+            target: {
+                name,
+                value: formatedValue
+            }
+        })
+        
     }
 
     return (
-        <Input onChange={onInputChange} {...inputProps} />
+        <div className={`field column ${columnClasses}` }>
+            <label className="label" htmlFor={id}>{label}</label>
+            <div className="control">
+                <input className="input" onChange={onRawChange}
+                    id={id} {...inputProps}/>
+                {error &&
+                    <p className="help is-danger">{ error }</p>
+                }
+            </div>
+        </div>
     )
 }
 
-interface FormikInputProps extends InputProps {
-    onChange: (event) => void
-}
+export const InputMoney: React.FC<InputProps> = (props: InputProps) => {
 
-export const FormikInput: React.FC<FormikInputProps> = (props: FormikInputProps) => {
-
-    const onInputChange = (value) => {
-        console.log(value);
-        
-        const event = { target: { name: props?.name, value } }
-        props.onChange(event)
+    const formatMoney = (value: string) => {
+        return formatReal(value)
     }
 
     return (
-        <Input onChange={onInputChange} {...props} />
+        <Input {...props} formatter={formatMoney} />
     )
 }
 
 export const InputCPF: React.FC<InputProps> = (props: InputProps) => {
+    return (
+        <Input {...props} formatter={formatter.formatCPF} />
+    )
+}
 
-    const format = new FormatUtils();
+export const InputPhone: React.FC<InputProps> = (props: InputProps) => {
+    return (
+        <Input {...props} formatter={formatter.formatPhone} />
+    )
+}
 
-    const onRawChange = (value) => {
-        debugger
-        const cpf = format.formatOnlyIntegers(value)
-        props.onChange({ target: { name: props.name, value: cpf }})
+export const InputNumber: React.FC<InputProps> = (props: InputProps) => {
+    return (
+        <Input {...props} formatter={formatter.formatOnlyIntegers} />
+    )
+}
+
+export const InputDate: React.FC<InputProps> = (props: InputProps) => {
+
+    const formatData = (value: string) => {
+       const data = formatter.formatOnlyIntegers(value)
+       const size = value.length;
+
+       if(size <= 2){
+           return data;
+       }
+
+       if(size <= 4){
+           return data.substr(0 , 2) + "/" + data.substr(2, 2) 
+       }
+
+       if(size <= 6){
+           return data.substr(0 , 2) + "/" + data.substr(2, 2) + "/" + data.substr(4, 2)
+       }
     }
 
-    const value = props.value && format.formatCPF(props.value as string)
-    console.log(value);
-    
     return (
-        <FormikInput maxLength={14} onChange={onRawChange} value={value} {...props} />
+        <Input {...props} maxLength={10} formatter={formatData} />
     )
 }
