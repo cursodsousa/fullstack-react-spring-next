@@ -26,9 +26,18 @@ public class ClienteController {
 
 	@Autowired
 	private ClienteRepository repository;
+	@Autowired
+	private ClienteValidator validator;
 	
 	@PostMapping
-	public ResponseEntity salvar(@RequestBody ClienteFormRequest request) {
+	public ResponseEntity<Object> salvar(@RequestBody ClienteFormRequest request) {
+		var result = validator.validate(request);
+		if(result.hasErrors()) {
+			return ResponseEntity
+					.unprocessableEntity()
+					.body(result);
+		}
+		
 		Cliente cliente = request.toModel();
 		repository.save(cliente);
 		return ResponseEntity.ok(ClienteFormRequest.fromModel(cliente));
