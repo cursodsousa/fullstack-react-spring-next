@@ -1,7 +1,7 @@
 import { Cliente } from 'app/models/clientes'
 import { useFormik } from 'formik'
 import { Input, InputCPF, InputTelefone, InputDate } from 'components'
-import * as Yup from 'yup'
+import { validationScheme } from './validationSchema'
 
 interface ClienteFormProps {
     cliente: Cliente;
@@ -18,24 +18,6 @@ const formScheme: Cliente = {
     nome: '',
     telefone: ''
 }
-
-const campoObrigatorioMensagem = "Campo obrigatório";
-const campoObrigatorioValidation = Yup.string().trim().required(campoObrigatorioMensagem);
-
-const validationScheme = Yup.object().shape({
-    cpf: Yup.string().trim()
-        .required(campoObrigatorioMensagem)
-        .length(14, "CPF Inválido!"),
-    dataNascimento: Yup.string().trim()
-        .required(campoObrigatorioMensagem)
-        .length(10, "Data Inválida"),
-    email: Yup.string().trim()
-        .required("Campo obrigatório")
-        .email("Email inválido!"),
-    endereco: campoObrigatorioValidation,
-    nome: campoObrigatorioValidation,
-    telefone: campoObrigatorioValidation
-})
 
 export const ClienteForm: React.FC<ClienteFormProps> = ({
     cliente,
