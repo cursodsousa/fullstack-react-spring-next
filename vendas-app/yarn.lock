@@ -1418,6 +1418,11 @@ prebuild-install@^6.0.0:
     tunnel-agent "^0.6.0"
     which-pm-runs "^1.0.0"
 
+primereact@6.4.0:
+  version "6.4.0"
+  resolved "https://registry.yarnpkg.com/primereact/-/primereact-6.4.0.tgz#265202018fa1c1d1c6bf91b8ba2360cea3b2aba5"
+  integrity sha512-DOrDNSXKlarXde/Wh+zysqvRdpRa8laRNdl7VFhXICb54qhpkJeih1yx836U06mNsi5+ttqwb/cf3kqtKLrp9g==
+
 process-nextick-args@~2.0.0:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/process-nextick-args/-/process-nextick-args-2.0.1.tgz#7820d9b16120cc55ca9ae7792680ae7dba6d7fe2"
