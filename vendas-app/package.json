@@ -16,6 +16,7 @@
     "primereact": "6.4.0",
     "react": "17.0.1",
     "react-dom": "17.0.1",
+    "react-transition-group": "4.4.2",
     "swr": "^0.5.6",
     "yup": "^0.32.9"
   },

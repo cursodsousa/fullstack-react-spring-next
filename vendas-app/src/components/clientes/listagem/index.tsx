@@ -1,7 +1,10 @@
+import { Cliente } from 'app/models/clientes'
 import { Layout } from 'components'
 import { Input, InputCPF } from 'components'
 import { useFormik } from 'formik'
-import { Button } from 'primereact/button'
+import { useState } from 'react'
+import { DataTable } from 'primereact/datatable'
+import { Column } from 'primereact/column'
 
 interface ConsultaClientesForm {
     nome?: string;
@@ -9,6 +12,14 @@ interface ConsultaClientesForm {
 }
 
 export const ListagemClientes: React.FC = () => {
+
+    const [ clientes, setClientes]  = useState<Cliente[]>([
+        { id: "1" , 
+            nome: "fulano", 
+            email: "fulano@email.com", 
+            cpf: "000.000.000-00" 
+        }
+    ]);
 
     const handleSubmit = (filtro: ConsultaClientesForm) => {
         console.log(filtro)
@@ -25,8 +36,6 @@ export const ListagemClientes: React.FC = () => {
 
     return (
         <Layout titulo="Clientes">
-
-            <Button label="Teste" />
             <form onSubmit={formikSubmit}>
                 <div className="columns">
                     <Input label="Nome" id="nome" 
@@ -50,7 +59,18 @@ export const ListagemClientes: React.FC = () => {
                         </button>
                     </div>
                 </div>  
+
             </form>
+            <div className="columns">
+                <div className="is-full">
+                    <DataTable value={clientes}>
+                        <Column field="id" header="Código"  />
+                        <Column field="nome" header="Nome"  />
+                        <Column field="cpf" header="CPF"  />
+                        <Column field="email" header="Email" />
+                    </DataTable>
+                </div>
+            </div>
         </Layout>
     )
 }
