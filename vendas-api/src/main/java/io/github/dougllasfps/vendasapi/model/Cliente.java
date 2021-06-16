@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
 @Entity
@@ -59,6 +60,11 @@ public class Cliente {
 		this.endereco = endereco;
 		this.telefone = telefone;
 		this.email = email;
+	}
+	
+	@PrePersist
+	public void prePersist() {
+		setDataCadastro(LocalDate.now());
 	}
 
 	public Long getId() {
