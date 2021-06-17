@@ -3,8 +3,10 @@ import { Layout } from 'components'
 import { Input, InputCPF } from 'components'
 import { useFormik } from 'formik'
 import { useState } from 'react'
-import { DataTable } from 'primereact/datatable'
+import { DataTable, DataTablePageParams } from 'primereact/datatable'
 import { Column } from 'primereact/column'
+import { Page } from 'app/models/common/page'
+import { useClienteService } from 'app/services'
 
 interface ConsultaClientesForm {
     nome?: string;
@@ -13,16 +15,18 @@ interface ConsultaClientesForm {
 
 export const ListagemClientes: React.FC = () => {
 
-    const [ clientes, setClientes]  = useState<Cliente[]>([
-        { id: "1" , 
-            nome: "fulano", 
-            email: "fulano@email.com", 
-            cpf: "000.000.000-00" 
-        }
-    ]);
+    const service = useClienteService();
+    const [ loading, setLoading ] = useState<boolean>(false) 
+    const [ clientes, setClientes]  = useState<Page<Cliente>>({
+        content: [],
+        first: 0,
+        number: 0,
+        size: 10,
+        totalElements: 0
+    });
 
     const handleSubmit = (filtro: ConsultaClientesForm) => {
-        console.log(filtro)
+        handlePage(null);
     }
 
     const { 
@@ -33,6 +37,14 @@ export const ListagemClientes: React.FC = () => {
         onSubmit: handleSubmit,
         initialValues: { nome: '', cpf: '' }
     })
+
+    const handlePage = (event: DataTablePageParams) => {
+        setLoading(true)
+        service.find(filtro.nome, filtro.cpf, event?.page, event?.rows)
+                .then(result => {
+                    setClientes({...result, first: event?.first })
+                }).finally(() => setLoading(false))
+    }
 
     return (
         <Layout titulo="Clientes">
@@ -61,9 +73,20 @@ export const ListagemClientes: React.FC = () => {
                 </div>  
 
             </form>
+
+            <br />
+
             <div className="columns">
                 <div className="is-full">
-                    <DataTable value={clientes}>
+                    <DataTable value={clientes.content} 
+                               totalRecords={clientes.totalElements}
+                               lazy paginator
+                               first={clientes.first}
+                               rows={clientes.size}
+                               onPage={handlePage}
+                               loading={loading}
+                               emptyMessage="Nenhum registro."
+                               >
                         <Column field="id" header="Código"  />
                         <Column field="nome" header="Nome"  />
                         <Column field="cpf" header="CPF"  />
