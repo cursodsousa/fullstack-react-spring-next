@@ -5,8 +5,11 @@ import { useFormik } from 'formik'
 import { useState } from 'react'
 import { DataTable, DataTablePageParams } from 'primereact/datatable'
 import { Column } from 'primereact/column'
+import { Button } from 'primereact/button'
+import { confirmDialog } from 'primereact/confirmdialog'
 import { Page } from 'app/models/common/page'
 import { useClienteService } from 'app/services'
+import Router from 'next/router'
 
 interface ConsultaClientesForm {
     nome?: string;
@@ -21,7 +24,7 @@ export const ListagemClientes: React.FC = () => {
         content: [],
         first: 0,
         number: 0,
-        size: 10,
+        size: 5,
         totalElements: 0
     });
 
@@ -44,6 +47,34 @@ export const ListagemClientes: React.FC = () => {
                 .then(result => {
                     setClientes({...result, first: event?.first })
                 }).finally(() => setLoading(false))
+    }
+
+    const deletar = (cliente: Cliente) => {
+        service.deletar(cliente.id).then(result => {
+            handlePage(null)
+        })
+    }
+
+    const actionTemplate = (registro: Cliente) => {
+        const url = `/cadastros/clientes?id=${registro.id}`
+        return (
+            <div>
+                <Button label="Editar" 
+                        className="p-button-rounded p-button-info"
+                        onClick={e => Router.push(url) }
+                        />
+                <Button label="Deletar" onClick={event => {
+                    confirmDialog({
+                        message: "Confirma a exclusão deste registro?",
+                        acceptLabel: "Sim",
+                        rejectLabel: "Não",
+                        accept: () => deletar(registro),
+                        header: "Confirmação"
+                    })
+                }}
+                        className="p-button-rounded p-button-danger" />
+            </div>
+        )
     }
 
     return (
@@ -70,6 +101,13 @@ export const ListagemClientes: React.FC = () => {
                             Consultar                     
                         </button>
                     </div>
+                    <div className="control is-link">
+                        <button type="submit" 
+                                onClick={e => Router.push("/cadastros/clientes")} 
+                                className="button is-warning">
+                            Novo                     
+                        </button>
+                    </div>
                 </div>  
 
             </form>
@@ -91,6 +129,7 @@ export const ListagemClientes: React.FC = () => {
                         <Column field="nome" header="Nome"  />
                         <Column field="cpf" header="CPF"  />
                         <Column field="email" header="Email" />
+                        <Column body={actionTemplate} />
                     </DataTable>
                 </div>
             </div>
