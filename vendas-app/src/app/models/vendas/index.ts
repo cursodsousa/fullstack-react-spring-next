@@ -3,7 +3,12 @@ import { Produto } from "app/models/produtos";
 
 export interface Venda {
     cliente?: Cliente;
-    produtos?: Array<Produto>;
+    itens?: Array<ItemVenda>;
     formaPagamento?: string;
     total: number;
+}
+
+export interface ItemVenda {
+    produto: Produto;
+    quantidade: number;
 }
