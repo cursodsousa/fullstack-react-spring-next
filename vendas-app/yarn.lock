@@ -1433,6 +1433,11 @@ prebuild-install@^6.0.0:
     tunnel-agent "^0.6.0"
     which-pm-runs "^1.0.0"
 
+primeflex@2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/primeflex/-/primeflex-2.0.0.tgz#b4152a97a455bbfad33503b6e10fe73d1f9e2228"
+  integrity sha512-t6AG3iRI1rh04uI+9nC4JSlbKfA8PnpRDFtjyqi3rDSLRgdfOuhIiunJbjVQ4alnnCfuQAAbVyde1AKN9QxT/w==
+
 primereact@6.4.0:
   version "6.4.0"
   resolved "https://registry.yarnpkg.com/primereact/-/primereact-6.4.0.tgz#265202018fa1c1d1c6bf91b8ba2360cea3b2aba5"

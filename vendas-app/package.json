@@ -13,6 +13,7 @@
     "bulma": "0.9.2",
     "formik": "^2.2.9",
     "next": "10.0.7",
+    "primeflex": "2.0.0",
     "primereact": "6.4.0",
     "react": "17.0.1",
     "react-dom": "17.0.1",
