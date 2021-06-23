@@ -16,4 +16,5 @@ public interface ClienteRepository extends JpaRepository<Cliente, Long> {
 			@Param("nome") String nome, 
 			@Param("cpf") String cpf, 
 			Pageable pageable);
+	
 }
