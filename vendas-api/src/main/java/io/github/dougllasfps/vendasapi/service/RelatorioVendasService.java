@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
@@ -33,8 +34,7 @@ public class RelatorioVendasService {
 	@Autowired
 	private DataSource dataSource;
 	
-	public byte[] gerarRelatorio() {
-		//try with resources
+	public byte[] gerarRelatorio(Long idCliente, String dataInicio, String dataFim) {
 		try (
 			Connection connection = dataSource.getConnection();	
 		) {

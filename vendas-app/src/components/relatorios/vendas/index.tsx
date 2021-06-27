@@ -6,7 +6,7 @@ import { Button } from 'primereact/button'
 import { InputDate } from 'components'
 import { AutoComplete, AutoCompleteChangeParams, AutoCompleteCompleteMethodParams } from 'primereact/autocomplete'
 import { useState } from 'react'
-import { useClienteService } from 'app/services'
+import { useClienteService, useVendaService } from 'app/services'
 
 interface RelatorioVendasForm {
     cliente: Cliente;
@@ -16,13 +16,21 @@ interface RelatorioVendasForm {
 
 export const RelatorioVendas: React.FC = () => {
 
+    const vendasService = useVendaService()
     const clienteService = useClienteService()
     const [ listaClientes, setListaClientes ] = useState<Page<Cliente>>({
         content: [], first: 0, number: 0, size: 20, totalElements: 0
     })
 
     const handleSubmit = (formData: RelatorioVendasForm) => {
-        console.log(formData)
+        vendasService.gerarRelatorioVendas(
+            formData.cliente?.id, 
+            formData.dataInicio,
+            formData.dataFim
+        ).then(blob => {
+            const fileURL = URL.createObjectURL(blob);
+            window.open(fileURL)
+        })
     }
 
     const formik = useFormik<RelatorioVendasForm>({
