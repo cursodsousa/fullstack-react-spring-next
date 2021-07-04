@@ -39,7 +39,7 @@ public class Venda {
 	@Column
 	private BigDecimal total;
 	
-	@Column(name = "data_cadastro")
+	@Column(name = "data_venda")
 	private LocalDateTime dataCadastro;
 	
 	@PrePersist
