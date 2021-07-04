@@ -3,6 +3,7 @@ package io.github.dougllasfps.vendasapi.service;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,14 +35,17 @@ public class RelatorioVendasService {
 	@Autowired
 	private DataSource dataSource;
 	
-	public byte[] gerarRelatorio(Long idCliente, String dataInicio, String dataFim) {
+	public byte[] gerarRelatorio(Long idCliente, Date dataInicio, Date dataFim) {
 		try (
 			Connection connection = dataSource.getConnection();	
 		) {
-			Map<String, Object> paramentros = new HashMap<>();
+			Map<String, Object> parametros = new HashMap<>();
+			parametros.put("ID_CLIENTE", idCliente);
+			parametros.put("DATA_INICIO", dataInicio);
+			parametros.put("DATA_FIM", dataFim);
 			return JasperRunManager.runReportToPdf(
 					relatorioVendasCompilado.getInputStream(), 
-					paramentros, 
+					parametros, 
 					connection);
 			
 		} catch (SQLException e) {

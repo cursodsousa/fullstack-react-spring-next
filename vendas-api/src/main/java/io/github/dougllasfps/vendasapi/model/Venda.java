@@ -1,6 +1,7 @@
 package io.github.dougllasfps.vendasapi.model;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -13,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
 @Entity
@@ -36,7 +38,15 @@ public class Venda {
 	
 	@Column
 	private BigDecimal total;
-
+	
+	@Column(name = "data_cadastro")
+	private LocalDateTime dataCadastro;
+	
+	@PrePersist
+	public void prePersist() {
+		setDataCadastro(LocalDateTime.now());
+	}
+	
 	public Long getId() {
 		return id;
 	}
@@ -82,6 +92,12 @@ public class Venda {
 		return "Venda [id=" + id + ", cliente=" + cliente + ", formaPagamento=" + formaPagamento + ", itens=" + itens
 				+ ", total=" + total + "]";
 	}
-	
-	
+
+	public LocalDateTime getDataCadastro() {
+		return dataCadastro;
+	}
+
+	public void setDataCadastro(LocalDateTime dataCadastro) {
+		this.dataCadastro = dataCadastro;
+	}
 }

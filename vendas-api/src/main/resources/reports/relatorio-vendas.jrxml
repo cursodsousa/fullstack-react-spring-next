@@ -1,22 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.2.3.final using JasperReports Library version 6.2.3  -->
-<!-- 2021-06-25T11:14:35 -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relatorio-vendas" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="7be75c02-70e3-4f90-a711-fa7e662380bc">
+<!-- 2021-07-04T10:30:54 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relatorio-vendas" pageWidth="595" pageHeight="842" whenNoDataType="NoDataSection" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="7be75c02-70e3-4f90-a711-fa7e662380bc">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="banco-de-dados-vendas.xml"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="DATA_INICIO" class="java.util.Date"/>
+	<parameter name="DATA_FIM" class="java.util.Date"/>
+	<parameter name="ID_CLIENTE" class="java.lang.Long">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+	</parameter>
 	<queryString>
 		<![CDATA[select 
 	v.id as codigo,
 	c.nome as nomecliente,
 	v.total as total,
-	v.forma_pagamento
+	v.forma_pagamento,
+	v.data_venda
 from venda as v
-join cliente as c on c.id = v.id_cliente]]>
+join cliente as c on c.id = v.id_cliente
+where 1 = 1
+and ( v.id_cliente = $P{ID_CLIENTE} or $P{ID_CLIENTE} is null )
+and v.data_venda between $P{DATA_INICIO} and $P{DATA_FIM}
+order by c.nome, v.data_venda asc]]>
 	</queryString>
 	<field name="codigo" class="java.lang.Long"/>
 	<field name="nomecliente" class="java.lang.String"/>
 	<field name="total" class="java.math.BigDecimal"/>
 	<field name="forma_pagamento" class="java.lang.String"/>
+	<field name="data_venda" class="java.sql.Timestamp"/>
 	<variable name="total1" class="java.math.BigDecimal" resetType="Column" calculation="Sum">
 		<variableExpression><![CDATA[$F{total}]]></variableExpression>
 	</variable>
@@ -61,7 +72,7 @@ join cliente as c on c.id = v.id_cliente]]>
 				<text><![CDATA[Código]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="100" y="0" width="280" height="21" forecolor="#FFFFFF" backcolor="#ADADAD" uuid="f9549a44-d180-4ee9-9d46-56c8395ad7f5"/>
+				<reportElement mode="Opaque" x="100" y="0" width="220" height="21" forecolor="#FFFFFF" backcolor="#ADADAD" uuid="f9549a44-d180-4ee9-9d46-56c8395ad7f5"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
@@ -81,13 +92,20 @@ join cliente as c on c.id = v.id_cliente]]>
 				</textElement>
 				<text><![CDATA[Total]]></text>
 			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="320" y="0" width="60" height="21" forecolor="#FFFFFF" backcolor="#ADADAD" uuid="2bef98e4-b98a-4692-a86d-9345c70b611d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Data]]></text>
+			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
 		<band height="30" splitType="Stretch">
 			<rectangle>
 				<reportElement mode="Opaque" x="0" y="0" width="552" height="29" backcolor="#F5F5F5" uuid="d38b3549-c739-43ff-80b7-d8e213627380">
-					<printWhenExpression><![CDATA[new java.lang.Boolean( $V{REPORT_COUNT} % 2 == 0) ]]></printWhenExpression>
+					<printWhenExpression><![CDATA[new java.lang.Boolean( $V{REPORT_COUNT} % 2 == 0)]]></printWhenExpression>
 				</reportElement>
 			</rectangle>
 			<textField>
@@ -96,7 +114,7 @@ join cliente as c on c.id = v.id_cliente]]>
 				<textFieldExpression><![CDATA[$F{codigo}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="100" y="0" width="280" height="30" uuid="b4a44582-7287-4d71-858f-f3a0eaa9cb8e"/>
+				<reportElement x="100" y="0" width="220" height="30" uuid="b4a44582-7287-4d71-858f-f3a0eaa9cb8e"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{nomecliente}]]></textFieldExpression>
 			</textField>
@@ -109,6 +127,11 @@ join cliente as c on c.id = v.id_cliente]]>
 				<reportElement x="480" y="0" width="72" height="30" uuid="9d3dd9ea-f012-4185-94a4-dfa2218f442b"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="320" y="0" width="60" height="30" uuid="e505e9f5-fa7e-481e-bb05-a9d471d7c76b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{data_venda}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
@@ -152,6 +175,14 @@ join cliente as c on c.id = v.id_cliente]]>
 		</band>
 	</pageFooter>
 	<noData>
-		<band height="50"/>
+		<band height="50">
+			<staticText>
+				<reportElement x="2" y="10" width="550" height="30" uuid="9badc9cf-2c72-4b37-a11a-3537e98c3c77"/>
+				<textElement textAlignment="Center">
+					<font size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nenhum Registro encontrado para os parâmetros passados.]]></text>
+			</staticText>
+		</band>
 	</noData>
 </jasperReport>
