@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import { Layout, Dashboard } from 'components'
+import { Layout, Dashboard, ProtectedComponent } from 'components'
 import { useDashboardService } from 'app/services'
 import { DashboardData } from 'app/models/dashboard'
 
@@ -9,7 +9,7 @@ interface HomeProps {
 
 const Home: React.FC<HomeProps> = (props: HomeProps) => {
   return (
-    <div>
+    <ProtectedComponent>
       <Head>
         <title>Vendas App</title>
         <link rel="icon" href="/favicon.ico" />
@@ -22,7 +22,7 @@ const Home: React.FC<HomeProps> = (props: HomeProps) => {
                    vendasPorMes={props.dashboard.vendasPorMes}
                    />
       </Layout>
-    </div>
+    </ProtectedComponent>
   )
 }
 

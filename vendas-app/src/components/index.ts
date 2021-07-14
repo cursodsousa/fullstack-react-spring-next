@@ -4,6 +4,7 @@ export { CadastroCliente, ListagemClientes } from './clientes'
 export { Vendas } from './vendas'
 export { RelatorioVendas } from './relatorios'
 export { Dashboard } from './dashboard'
+export { ProtectedComponent } from './protected-component'
 export { 
     Input, 
     InputMoney, 
