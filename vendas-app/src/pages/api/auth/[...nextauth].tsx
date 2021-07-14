@@ -10,7 +10,7 @@ export default NextAuth({
         Providers.Auth0({
             clientId: 'sQ6OnNSi0dTLDBSMHUUHedxrbWtxjzwk',
             clientSecret: 'Igk98BT8t-B7JDRwAffPF-rrIrsDIQgSoSymbEooE5R7w7DwrEOcK3YEHSZyCmZJ',
-            domain: 'cursodsousa.us.auth0.com'
-        })
+            domain: 'cursodsousa.us.auth0.com',
+        }),
     ]
 })

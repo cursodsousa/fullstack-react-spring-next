@@ -1,3 +1,7 @@
-import { ListagemClientes  } from 'components'
+import { ListagemClientes, RotaAutenticada  } from 'components'
 
-export default ListagemClientes
+export default () => (
+    <RotaAutenticada>
+        <ListagemClientes />
+    </RotaAutenticada>
+)

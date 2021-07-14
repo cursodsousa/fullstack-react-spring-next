@@ -1,3 +1,7 @@
-import { CadastroCliente } from 'components'
+import { CadastroCliente, RotaAutenticada } from 'components'
 
-export default CadastroCliente
+export default () => (
+    <RotaAutenticada>
+        <CadastroCliente />
+    </RotaAutenticada>
+)

@@ -1,4 +1,5 @@
 import { signIn, useSession } from 'next-auth/client'
+import { Loader } from 'components'
 
 interface RotaAutenticadaProps {
     children: React.ReactNode;
@@ -10,14 +11,15 @@ export const RotaAutenticada: React.FC<RotaAutenticadaProps> = ({
 
     const [ session, loading ] = useSession()
 
-    console.log(session);
-
-    if(!session){
+    if(loading){
         return (
-            <button onClick={() => signIn()}>
-                Você não está logado, clique para logar
-            </button>
+            <Loader show />
         )
+    }
+
+    if(!session && !loading){
+        signIn()
+        return null;
     }
 
     return (

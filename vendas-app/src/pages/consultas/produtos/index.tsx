@@ -1,3 +1,8 @@
 import { ListagemProdutos } from 'components'
+import { RotaAutenticada } from 'components'
 
-export default ListagemProdutos
+export default () => (
+    <RotaAutenticada>
+        <ListagemProdutos />
+    </RotaAutenticada>
+)
