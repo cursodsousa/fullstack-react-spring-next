@@ -4,8 +4,11 @@ import Providers from 'next-auth/providers'
 export default NextAuth({
     providers: [
         Providers.GitHub({
-            clientId: '5635cc08091d452b082e',
-            clientSecret: '842367ad18239291bc9fbb32b3cded21871b0049 '
+            clientId: 'Iv1.e8b4b3582569573a',
+            clientSecret: 'e9c1358f5eaa8f385406eef6df876b41fb4610a5'
+        }),
+        Providers.Google({
+            
         })
     ]
 })
