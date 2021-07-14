@@ -3,10 +3,6 @@ import Providers from "next-auth/providers"
 
 export default NextAuth({
     providers: [
-        Providers.GitHub({
-            clientId: '',
-            clientSecret: '',
-        }),
         Providers.Auth0({
             clientId: 'BBttAOL7gsyl80ap7DWYb5JYX88FtZg6',
             clientSecret: 'v_oEnTzDmLKIYYPze9HkiIxaQuYPAxlSXxVV0Ak_Fexn0vFSPhM6oLC2drnUXZdA',
