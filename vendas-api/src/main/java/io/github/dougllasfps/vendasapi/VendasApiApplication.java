@@ -14,13 +14,19 @@ public class VendasApiApplication {
 	@Autowired
 	private Environment env;
 	
-	@GetMapping("/env")
-	public String getProperties() {
-		String ambiente = env.getActiveProfiles()[0];
+	@GetMapping("/")
+	public String getAmbiente() {
+		String ambienteAtual = "PADRÃO (nenhum)";
+		
+		if(env.getActiveProfiles().length > 0) {
+			ambienteAtual = env.getActiveProfiles()[0];
+		}
+		
 		String appName = env.getProperty("spring.application.name");
-		return String.format("Ambiente: %s | Nome da App: %s", ambiente, appName);
+		
+		return String.format("Ambiente: %s | App Name: %s", ambienteAtual, appName);
 	}
-
+	
 	public static void main(String[] args) {
 		SpringApplication.run(VendasApiApplication.class, args);
 	}

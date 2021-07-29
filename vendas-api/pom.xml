@@ -57,7 +57,11 @@
 			<exclusions>
 				<exclusion>
 					<groupId>com.lowagie</groupId>
-					<artifactId>itext</artifactId>
+		    		<artifactId>itext</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.olap4j</groupId>
+			    	<artifactId>olap4j</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>
@@ -66,6 +70,18 @@
 			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports-fonts</artifactId>
 			<version>6.0.0</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>com.lowagie</groupId>
+		    <artifactId>itext</artifactId>
+		    <version>2.1.7</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.olap4j</groupId>
+		    <artifactId>olap4j</artifactId>
+		    <version>1.2.0</version>
 		</dependency>
 
 		<dependency>
@@ -76,6 +92,7 @@
 	</dependencies>
 
 	<build>
+		<finalName>${project.artifactId}</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
