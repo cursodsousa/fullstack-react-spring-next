@@ -1,5 +1,5 @@
 import Axios, { AxiosInstance } from 'axios'
 
 export const httpClient: AxiosInstance = Axios.create({
-    baseURL: "http://localhost:8080/"
+    baseURL: process.env.NEXT_PUBLIC_VENDAS_API
 })

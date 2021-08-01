@@ -53,6 +53,11 @@ public class DashboardData {
 	}
 	
 	public void preencherMesesFaltantes() {
+		if(getVendasPorMes().isEmpty()) {
+			return;
+		}
+			
+			
 		Integer mesMaximo =  getVendasPorMes()
 									.stream()
 									.mapToInt(VendaPorMes::getMes)
